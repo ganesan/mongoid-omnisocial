@@ -1,0 +1,2 @@
+module MongoidOmnisocial
+end
