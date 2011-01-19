@@ -2,7 +2,6 @@
 ENV["RAILS_ENV"] = "test"
 
 require File.expand_path("../dummy/config/environment.rb",  __FILE__)
-require "rails/test_help"
 require "rspec/rails"
 
 ActionMailer::Base.delivery_method = :test
@@ -22,12 +21,29 @@ ActiveRecord::Migrator.migrate File.expand_path("../dummy/db/migrate/", __FILE__
 # Load support files
 Dir["#{File.dirname(__FILE__)}/support/**/*.rb"].each { |f| require f }
 
+# Configure Mongoid
+Mongoid.configure do |config|
+  name = "omnisocial-test"
+  host = "localhost"
+  config.master = Mongo::Connection.new.db(name)
+end
+
+require "mongoid-rspec"
+
 RSpec.configure do |config|
   # Remove this line if you don't want RSpec's should and should_not
   # methods or matchers
   require 'rspec/expectations'
   config.include RSpec::Matchers
+  config.include Mongoid::Matchers
 
   # == Mock Framework
   config.mock_with :rspec
+
+  # clean up
+  config.after :suite do
+    Mongoid.master.collections.select do |collection|
+      collection.name !~ /system/
+    end.each(&:drop)
+  end
 end
