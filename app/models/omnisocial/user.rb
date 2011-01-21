@@ -5,7 +5,7 @@ module Omnisocial
 
     field :remember_token, :type => String
 
-    embeds_one :login_account, :class_name => 'Omnisocial::LoginAccount'
+    references_one :login_account, :class_name => 'Omnisocial::LoginAccount'
 
     def login
       login_account.login unless login_account.nil?

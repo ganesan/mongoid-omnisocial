@@ -8,7 +8,7 @@ module Omnisocial
     field :picture_url, :type => String
     field :access_token, :type => String
 
-    embedded_in :user
+    referenced_in :user
 
     class << self
       def find_or_create_from_auth_hash(auth_hash)
