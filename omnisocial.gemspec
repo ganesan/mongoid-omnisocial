@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Klaus Hartl"]
-  s.date = %q{2011-01-19}
+  s.date = %q{2011-01-20}
   s.description = %q{Twitter and Facebook logins for your Rails application using Mongoid. Based on OmniSocial: https//github.com/icelab/omnisocial }
   s.email = %q{klaus.hartl@gmail.com}
   s.extra_rdoc_files = [
@@ -17,14 +17,40 @@ Gem::Specification.new do |s|
     "README.rdoc"
   ]
   s.files = [
+    ".document",
     "Gemfile",
     "Gemfile.lock",
+    "LICENSE.txt",
     "README.rdoc",
     "Rakefile",
     "VERSION",
+    "app/controllers/omnisocial/auth_controller.rb",
+    "app/helpers/omnisocial/auth_helper.rb",
+    "app/models/omnisocial/facebook_account.rb",
+    "app/models/omnisocial/login_account.rb",
+    "app/models/omnisocial/twitter_account.rb",
+    "app/models/omnisocial/user.rb",
+    "app/views/omnisocial/auth/new.html.erb",
+    "config/routes.rb",
+    "lib/extensions/action_controller/base.rb",
+    "lib/generators/omnisocial/omnisocial_generator.rb",
+    "lib/generators/omnisocial/templates/README",
+    "lib/generators/omnisocial/templates/assets/images/facebook.png",
+    "lib/generators/omnisocial/templates/assets/images/signin_facebook.png",
+    "lib/generators/omnisocial/templates/assets/images/signin_twitter.png",
+    "lib/generators/omnisocial/templates/assets/images/twitter.gif",
+    "lib/generators/omnisocial/templates/assets/stylesheets/omnisocial.css",
+    "lib/generators/omnisocial/templates/omnisocial.rb",
+    "lib/generators/omnisocial/templates/user.rb",
+    "lib/omnisocial.rb",
+    "lib/omnisocial/engine.rb",
+    "lib/omnisocial/service_config.rb",
+    "lib/omnisocial/version.rb",
+    "omnisocial.gemspec",
     "spec/dummy/Rakefile",
     "spec/dummy/app/controllers/application_controller.rb",
     "spec/dummy/app/helpers/application_helper.rb",
+    "spec/dummy/app/models/user.rb",
     "spec/dummy/app/views/layouts/application.html.erb",
     "spec/dummy/config.ru",
     "spec/dummy/config/application.rb",
@@ -55,6 +81,11 @@ Gem::Specification.new do |s|
     "spec/dummy/public/stylesheets/.gitkeep",
     "spec/dummy/script/rails",
     "spec/integration/navigation_spec.rb",
+    "spec/models/omnisocial/facebook_account_spec.rb",
+    "spec/models/omnisocial/login_account_spec.rb",
+    "spec/models/omnisocial/twitter_account_spec.rb",
+    "spec/models/omnisocial/user_spec.rb",
+    "spec/omnisocial_spec.rb",
     "spec/spec_helper.rb"
   ]
   s.homepage = %q{http://github.com/carhartl/mongoid-omnisocial}
@@ -98,18 +129,15 @@ Gem::Specification.new do |s|
       s.add_runtime_dependency(%q<oa-core>, [">= 0"])
       s.add_runtime_dependency(%q<oa-oauth>, [">= 0"])
       s.add_runtime_dependency(%q<bcrypt-ruby>, [">= 0"])
-      s.add_runtime_dependency(%q<mongoid>, ["= 2.0.0.rc.5"])
-      s.add_runtime_dependency(%q<mongo>, ["= 1.1.5"])
+      s.add_runtime_dependency(%q<mongoid>, ["= 2.0.0.rc.6"])
       s.add_runtime_dependency(%q<bson_ext>, ["= 1.2.0"])
       s.add_development_dependency(%q<bundler>, [">= 0"])
       s.add_development_dependency(%q<jeweler>, [">= 0"])
       s.add_development_dependency(%q<rcov>, [">= 0"])
-      s.add_development_dependency(%q<mongoid-rspec>, [">= 0"])
       s.add_runtime_dependency(%q<oa-core>, ["~> 0.1.2"])
       s.add_runtime_dependency(%q<oa-oauth>, ["~> 0.1.2"])
       s.add_runtime_dependency(%q<bcrypt-ruby>, ["~> 2.1"])
-      s.add_runtime_dependency(%q<mongoid>, ["= 2.0.0.rc.5"])
-      s.add_runtime_dependency(%q<mongo>, ["= 1.1.5"])
+      s.add_runtime_dependency(%q<mongoid>, ["= 2.0.0.rc6"])
       s.add_runtime_dependency(%q<bson_ext>, ["= 1.2.0"])
       s.add_development_dependency(%q<rspec>, [">= 0"])
       s.add_development_dependency(%q<mongoid-rspec>, [">= 0"])
@@ -121,18 +149,15 @@ Gem::Specification.new do |s|
       s.add_dependency(%q<oa-core>, [">= 0"])
       s.add_dependency(%q<oa-oauth>, [">= 0"])
       s.add_dependency(%q<bcrypt-ruby>, [">= 0"])
-      s.add_dependency(%q<mongoid>, ["= 2.0.0.rc.5"])
-      s.add_dependency(%q<mongo>, ["= 1.1.5"])
+      s.add_dependency(%q<mongoid>, ["= 2.0.0.rc.6"])
       s.add_dependency(%q<bson_ext>, ["= 1.2.0"])
       s.add_dependency(%q<bundler>, [">= 0"])
       s.add_dependency(%q<jeweler>, [">= 0"])
       s.add_dependency(%q<rcov>, [">= 0"])
-      s.add_dependency(%q<mongoid-rspec>, [">= 0"])
       s.add_dependency(%q<oa-core>, ["~> 0.1.2"])
       s.add_dependency(%q<oa-oauth>, ["~> 0.1.2"])
       s.add_dependency(%q<bcrypt-ruby>, ["~> 2.1"])
-      s.add_dependency(%q<mongoid>, ["= 2.0.0.rc.5"])
-      s.add_dependency(%q<mongo>, ["= 1.1.5"])
+      s.add_dependency(%q<mongoid>, ["= 2.0.0.rc6"])
       s.add_dependency(%q<bson_ext>, ["= 1.2.0"])
       s.add_dependency(%q<rspec>, [">= 0"])
       s.add_dependency(%q<mongoid-rspec>, [">= 0"])
@@ -145,18 +170,15 @@ Gem::Specification.new do |s|
     s.add_dependency(%q<oa-core>, [">= 0"])
     s.add_dependency(%q<oa-oauth>, [">= 0"])
     s.add_dependency(%q<bcrypt-ruby>, [">= 0"])
-    s.add_dependency(%q<mongoid>, ["= 2.0.0.rc.5"])
-    s.add_dependency(%q<mongo>, ["= 1.1.5"])
+    s.add_dependency(%q<mongoid>, ["= 2.0.0.rc.6"])
     s.add_dependency(%q<bson_ext>, ["= 1.2.0"])
     s.add_dependency(%q<bundler>, [">= 0"])
     s.add_dependency(%q<jeweler>, [">= 0"])
     s.add_dependency(%q<rcov>, [">= 0"])
-    s.add_dependency(%q<mongoid-rspec>, [">= 0"])
     s.add_dependency(%q<oa-core>, ["~> 0.1.2"])
     s.add_dependency(%q<oa-oauth>, ["~> 0.1.2"])
     s.add_dependency(%q<bcrypt-ruby>, ["~> 2.1"])
-    s.add_dependency(%q<mongoid>, ["= 2.0.0.rc.5"])
-    s.add_dependency(%q<mongo>, ["= 1.1.5"])
+    s.add_dependency(%q<mongoid>, ["= 2.0.0.rc6"])
     s.add_dependency(%q<bson_ext>, ["= 1.2.0"])
     s.add_dependency(%q<rspec>, [">= 0"])
     s.add_dependency(%q<mongoid-rspec>, [">= 0"])
